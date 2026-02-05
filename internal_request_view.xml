@@ -1,0 +1,106 @@
+<odoo>
+    <record id="internal_request_view_tree" model="ir.ui.view">
+        <field name="name">Internal Request View</field>
+        <field name="model">internal.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="request_id"/>
+                <field name="requester"/>
+                <field name="reason"/>
+                <field name="approver_id"/>
+                <field name="request_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="internal_request_view_form" model="ir.ui.view">
+        <field name="name">Internal Request Form</field>
+        <field name="model">internal.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <head>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button name="action_approve" string="Approve" type="object" attrs="{'invisible':[('state','!=','submitted')]}"/>
+                    <button name="action_reject" string="Reject" type="object" attrs="{'invisible':[('state','!=','submitted')]}"/>
+                </head>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="requester"/>
+                            <field name="approver_id"/>
+                        </group>
+                        <group>
+                              <field name="reason"/>
+                              <field name="request_date"/>
+                              <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_cheater">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="internal_request_kanban_view" model="ir.ui.view">
+        <field name="name">Internal Request Kanban View</field>
+        <field name="model">internal.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <strong>
+                                <field name="requester"/>
+                            </strong>
+
+                            <div>
+                                <field name="reason"/>
+                            </div>
+                            <div>
+                                <field name="state"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="internal_request_search" model="ir.ui.view">
+        <field name="name">Internal Request Search</field>
+        <field name="model">internal.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                <filter name="rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+
+                <filter name="group_by_state" string="Group By State" context="{group_by:state}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="internal_request_action" model="ir.actions.act_window">
+        <field name="name">Internal Request</field>
+        <field name="model">internal.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_internal_request"
+            name="Internal Request"
+    />
+    <menuitem
+            id="menu_internal_request_view"
+            name="Internal Request"
+            parent="menu_internal_request"
+            action="internal_request_action"
+    />
+</odoo>
