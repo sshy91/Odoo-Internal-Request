@@ -1,0 +1,22 @@
+.custom_table {
+    width: 100%;
+    border-collapse: collapse;
+    direction: rtl;
+}
+
+.custom_table th,
+.custom_table td {
+    border: 1px solid #999;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.custom_table thead {
+    background-color: #eee;
+    font-weight: bold;
+}
+
+.custom_table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
